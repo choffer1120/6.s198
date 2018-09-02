@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>A very boring deepleanjs page</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7"> </script>
+<body>
+    <div style>
+       <p>You should see a Float32 arrray produced by adding an array by another array (original downloaded file was multiplying an array by a scalar).</p>
+    </div>
+
+    <!-- The script below runs a computation using a Tensor data
+    structure from Tensorflow.js.  The computation
+    runs on the computer's GPU (Graphics Processing Unit),
+    which is much faster than running on the CPU.  The speed
+    difference is irrelevant for this tiny example, but will
+    become critical for compute-intense applications like
+    training neural networks. -->
+
+    <script>
+        // The code delimited by the <script> tag is JavaScript.
+        // In general you'll place your JavaScript code in
+        // a separate file from the html, but putting it here as a script simpler for
+        // this tiny exmple.
+        const a = tf.tensor([1, 2, 3]);
+        const b = tf.tensor([4, 5, 6]);
+        const sum = a.add(b);
+	// The dataSunc method waits for the computation to finish
+	// so the console can print the values.
+	const result = sum.dataSync();
+        console.log(result);
+        document.write("<p>Test array a: " + a);
+        document.write("<p>Test array b: " + b);
+        document.write("<p>Result: " + result);
+        document.write("<p />The result should be: " +        "5, 7, 9");
+        document.write("<p />Gosh I hope that works!")
+        document.write("<p />You should see this result in the console with Chrome Developer Tools");
+    </script>
+</body>
+</html>
