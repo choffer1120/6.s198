@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>Cole Hoffer Assignment 1</title>
+        <style>
+        	body{
+        		width: 90%;
+        		margin-left: 5%;
+        	}
+        	h3{
+        		margin-top: 24px;
+        	}
+        </style>
+    </head>
+
+    <body>
+        <h1>6.S198 Assignment 2</h1>
+        <h2>Cole Hoffer</h2>
+        <h2>Email: choffer@mit.edu</h2>
+
+        <h3>Problem 1</h3>
+        <p>The classifications are almost always wrong because the initial weights were chosen at random. Thus, the odds of correctly classifying an image in this state is 10%, as there are 10 possible labels.</p>
+
+        <h3>Problem 2</h3>
+        <ol>
+        	<li>With MNIST, a test accuracy of 87.5% was reached in a little under 6 seconds, performing about 925 inferences per second and trainging about 1050 examples per second (speeds up as time goes on). With fashion MNIST, things were a little worse with a test accuracy 78.75% in 4.5 seconds, with an inference rate of around 900 and an example/sec rate of about 1300 at the end. This discrepencacy in accuracy and speed almost certainly arrises from the fact the images in fashion MNIST are much more complex, thus will require more training.</li>
+
+        	<li>With CIFAR, things were much worse, with a test accuracy of 23% reached in about 7 seconds, with and inference rate near 700 and a training example/sec rate of about 900.</li>
+
+        	<li>Added the extra FC layer...</li>
+
+        	<li>...and everything went horribly. All training rates and times decreased, and more importantly, the test accuracy was about 9.3% at the end, like that's worse then randomly guessing. The issue is that the extra FC is creating an exploding gradient issue, caused by the addiontal layer, thus the model cannot learn when training.</li>
+        </ol>
+
+        <h3>Problem 3</h3>
+        <img src="1-4part1.PNG" width="40%"  />
+        <img src="1-4part2.PNG" width="40%" style="margin-left: 2%" />
+        <br>
+        <p>Adding the ReLu helped improve the accuracy, esspecially with the 100 FC -> ReLu -> 10 FC network, which was able to reach accuracies near or higher then the original network setup.</p>
+
+        <h3>Problem 4</h3>
+        <ol>
+        	<li>
+        		<p>Data in ascending order of number of FC layers (1 layer, 2 layers...)</p>
+        		<img src="1-6oneFC.PNG" width="40%"  />	
+        		<img src="1-6twoFC.PNG" width="40%"  />	
+        		<img src="1-6threeFC.PNG" width="40%"  />	
+        		<img src="1-6fourFC.PNG" width="40%"  />	
+        		<img src="1-6fiveFC.PNG" width="40%"  />	
+        		<br>
+        		<ul>
+        			<li><b>One Fully Connected Layer:</b> Test accuracy around 90%, training time of 16.5 seconds.</li>
+        			<li><b>Two Fully Connected Layers:</b> Test accuracy around 87.5%, training time of 27.5 seconds.</li>
+        			<li><b>Three Fully Connected Layers:</b> Test accuracy around 87.5%, training time of 31.5 seconds.</li>
+        			<li><b>Four Fully Connected Layers:</b> Test accuracy around 85%, training time of 51.8 seconds.</li>
+        			<li><b>Five Fully Connected Layers:</b> Test accuracy around 75%, training time of 77.8 seconds.</li>
+        		</ul>
+        		<br>
+        		<p>There did seem to be a bit of overfitting in the networks with the higher number of FC layers, mostly creating situations where the would reach a highly fluctuation plateau in terms of training/testing accuracies. In general, each new layer increased the training time, so basically it's about finding the network structure that will give you the highest accuracy, but in a managable amount of time.</p>
+        	</li>
+
+        	<li>
+        		<p>Funneled on left, reverse funnel on right.</p>
+        		<img src="1-6threeFunneledFC.PNG" width="40%"  />	
+        		<img src="1-6threeReverseFunneledFC.PNG" width="40%"  />
+        		<br>
+        		<p>The normal funnel (high -> mid -> low number of hidden units) performed the best, and actually the best of all the tests we've done to this point. This is structure works best because it deducts the important information at each level, and "discards" what doesn't matter as it goes to a deeper layer with less hidden unitys.</p>
+        	</li>
+
+        	<li>
+        		<p>The Fashion-MNIST and CIFAR datasets had similar relative results, where the there eventually reached points where doing too manyh layers hurt accuracy and training times. The funneling structure did help accuracy in both, but the only thing out of the ordinary was that a "reverese funnel" structure (50 -> 250 -> 10 hidden units) seemed to allow the CIFAR testing accuracy to be higher and less fluctuating (results images below), but this could again have to something to do with CIFAR's more detailed data.</p>
+        		<p>Normal funnel structure on left, reverse funnel on right</p>
+        		<img src="1-6CIFARfunnel.PNG" width="40%" />
+        		<img src="1-6CIFARreverseFunnel.PNG" width="40%" />
+        	</li>
+        </ol>
+
+        <h3>Problem 5</h3>
+        <p>In general, my partner and I saw two main things. First increasing the size of each batch essentially increased the amount of smoothness along the loss curve, suggesting the model learning better from each exmaple. Second, increasing the numebr of batches increased accuracy overall, as there was more data to test on. Both increases did affect the time it took to train though, so eventually it wouldn't be worth the time to maxmimize the number of batches you might want to train on.</p>
+
+        <h3>Problem 6</h3>
+        <ol>
+        	<li>
+        		<p>With the 200 batch size, 500 batches, we found that the model only tended to make mistakes on weirdly drawn figures, that sometimes just straight up looked like other numbers. For example in the first failed example, the "two" hardly has a curved body, which makes it confusable with a fancy 1 (version with head and a tail). Also the second example posted is just not a legible number, so examples like these are basically random in nature.</p>
+        		
+        		<img src="2.2goodTrainEx1.PNG" width="30%" />	
+        		<img src="2.2goodTrainEx2.PNG" width="30%" />
+        		<img src="2.2goodTrainEx3.PNG" width="30%" />
+        	</li>
+
+        	<li>
+        		<p>As mentioned in problem 5, increasing the size of a batch increased the loss curve smoothness and increasing the number of batches increased overall accuarcy. We tried doing both individually, but eventually found increasing both to a batch size of 200 and number of batches to 500 was a good balance.</p>
+        	</li>
+
+      		<li>
+      			<p>I created a model similar to the one we did in with the UI simulation, with 3 FC connected layers (150, 50, 10 hidden units) and ReLu layers in between. It had similar results as before, reaching a final accuracy of 85.95%, and only seeming to struggle on the weirder test images.</p>
+      			<img src="morecomplexnetwork.PNG" width="80%" />
+      		</li>
+        </ol>
+
+        <h3>Problem 7</h3>
+        <p>The Fashion-MNIST again had similar results as it did with the web based UI builder. It was still a bit less accurate then regular MNIST, which makes sense as it is more complex data in each image. The test accuracy did seem to still be increasing by the time our model stopped, so if we were willing to give the model more time, it would continue to become more accurate.</p>
+        <a href="modelCodeAsTxt.txt">Model Code as Text File Link</a>
+
+        <h3>Problem 8</h3>
+        <img src="deepart/ex1-og.jpg" width="30%" />
+        <img src="deepart/ex1-style.jpg" width="30%" />
+        <img src="deepart/ex1-final.jpg" width="30%" />
+        <br><br>
+        <img src="deepart/ex2-og.jpg" width="30%" />
+        <img src="deepart/ex2-style.jpg" width="30%" />
+        <img src="deepart/ex2-final.jpg" width="30%" />
+        <br><br>
+        <img src="deepart/ex3-og.jpg" width="30%" />
+        <img src="deepart/ex3-style.jpg" width="30%" />
+        <img src="deepart/ex3-final.jpg" width="30%" />
+
+    </body>
+</html>
