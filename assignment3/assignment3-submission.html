@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <title>Cole Hoffer Assignment 3</title>
+        <style>
+        	body{
+        		width: 90%;
+        		margin-left: 5%;
+        	}
+        	h3{
+        		margin-top: 24px;
+        	}
+        </style>
+    </head>
+
+    <body>
+        <h1>6.S198 Assignment 3</h1>
+        <h2>Cole Hoffer</h2>
+        <h2>Email: choffer@mit.edu</h2>
+
+        <h3>Question 1: Conv Visual Website</h3>
+        <img src="convViz/7-good.png" width="30%" />
+        <img src="convViz/7-fine.png" width="30%" />
+        <img src="convViz/7-bad.png" width="30%" />
+        <p>With the 7, I played around with erasing little parts of a very easily distinguishable 7 (first img).
+        Just removing some spots from the end of the digits keeps the prediction accuracy still pretty strong (middle img),
+        but taking any of the digits in the main body of the image completely wrecked the image (last img).
+        Thus, I would assume this suggests that the model is looking at the largets continuous part of the digits perhaps,
+        which in the last images case is just pretty random and would explain why it couldn't predict well.</p>
+        <br><br>
+
+        <img src="convViz/4-good.png" width="30%" />
+        <img src="convViz/4-bad.png" width="30%" />
+        <p>With the 4, I was able to I think show that the model heavily looks at the curvature
+        of the digit, as well as the seperation of lines (wider seperation in the 4 was favored).
+        Thus having any amount of curve in the upper left of arm of 4 made it the model register a strong 9 prediction.
+        But a (relatively) perfectly straight 4 had the model correctly choose 4.</p>
+        <br><br>
+
+
+        <h3>Question 2: Style Transfer</h3>
+        <ol>
+          <li>
+            <p>Multiple times through same filer: The image actually seems to be reverting back to the original
+            image used as the style template as much as it can in confines of the image I presented.</p>
+            <img src="style-transfer/mit-4.jpg" width="30%" />
+            <img src="style-transfer/part1-iteration1.png" width="30%" />
+            <img src="style-transfer/part1-iteration2.png" width="30%" />
+            <img src="style-transfer/part1-iteration3.png" width="30%" />
+            <img src="style-transfer/part1-iteration4.png" width="30%" />
+            <img src="style-transfer/part1-iteration5.png" width="30%" />
+          </li>
+          <br><br>
+          <li>
+            <p>New filter on filtered: The image seemed to stay a lot truer to the first style it transfered too.
+            But adding the second style did add a bit of color distortion and bluriness.</p>
+            <img src="style-transfer/mit-4.jpg" width="30%" />
+            <img src="style-transfer/part2-fromog.png" width="30%" />
+            <img src="style-transfer/part2-fromstyled.png" width="30%" />
+          </li>
+          <br><br>
+          <li>
+            <p>Go wild: I tried to stack all the filters onto one image and end on the style option used in part 1.
+            Surpsingly, using the same filters 5 times and using 5 different filters had really equitable end results.
+            So maybe this suggests that a lot more of the orginal image data is being stored through image style transfers.</p>
+            <img src="style-transfer/mit-4.jpg" width="30%" />
+            <img src="style-transfer/part3-sub1.png" width="30%" />
+            <img src="style-transfer/part3-sub2.png" width="30%" />
+            <img src="style-transfer/part3-sub3.png" width="30%" />
+            <img src="style-transfer/part3-sub4.png" width="30%" />
+            <img src="style-transfer/part3-sub5.png" width="30%" />
+          </li>
+        </ol>
+        <br><br>
+        <h3>Question 3: CNN's with Code</h3>
+        <ol>
+          <li>
+            <p>Batch sizes and training rates.</p>
+            <br>
+            <p><b>Batch size: 20, number of batches: 150, learning rate: 0.20</b></p>
+            <img src="convs/mnist-20,150.png" width="30%" />
+            <img src="convs/fashion-20,150.png" width="30%" />
+            <img src="convs/cifar-20,150.png" width="30%" />
+            <br><br>
+            <p><b>Batch size: 100, number of batches: 300, learning rate: 0.15</b></p>
+            <img src="convs/mnist-100,300.png" width="30%" />
+            <img src="convs/fashion-100,300.png" width="30%" />
+            <img src="convs/cifar-100,300.png" width="30%" />
+            <br><br>
+            <p><b>Batch size: 300, number of batches: 500, learning rate: 0.10</b></p>
+            <img src="convs/mnist-200,500.png" width="30%" />
+            <img src="convs/fashion-200,500.png" width="30%" />
+            <img src="convs/cifar-200,500.png" width="30%" />
+          </li>
+          <br><br>
+          <li>
+            <p>Convultional attribute edits</p>
+            <br>
+            <p><b>Convulational Layer 1 Edits: Increase Kernel Size to 5, Increase strides to 2, Decrease Max Pool Stride to [1,1]</b></p>
+            <img src="convs/mnist-conv1edits.png" width="45%" />
+            <img src="convs/fashion-conv1edits.png" width="45%" />
+            <br>
+            <p><b>Convulational Layer 2 Edits: Increase Kernel Size to 5, Increase strides to 2, Decrease Max Pool Stride to [1,1]</b></p>
+            <img src="convs/mnist-conv2edits.png" width="45%" />
+            <img src="convs/fashion-conv2edits.png" width="45%" />
+          </li>
+          <br><br>
+          <li>
+            <p>CIFAR is much harder to train for 2 main reasons I think. First, it is head and shoulders more
+              complex images then fashion-mnist and mnist, and thus will need more training time. Plus, CIFAR_10
+              is in color, thus really has 3 layers per image to train, while the mnist's are in black and white
+              and thus only have 1 layer to train per image</p>
+          </li>
+          <br><br>
+          <li>
+            <p>Adding Convulational layers: Up to 3 layers increases accuracy (but slows things down with each new layer). But once you
+              get to 5 layers, nothing is able to learn and accuracy stays terrible throughout training.</p>
+
+            <p><b>2 layers, 3 layers, 5 layers</b></p>
+            <img src="convs/mnist-200,500.png" width="30%" />
+            <img src="convs/mnist-3convs.png" width="30%" />
+            <img src="convs/mnist-5convs.png" width="30%" />
+          </li>
+          <br><br>
+          <li>
+            <p>Trying to get CIFAR_10 above 60%: I guess techinically I was, but using 2 convolutional layers with max pools, and two connected Layers
+            with a 0.10 trianing rate eventually got me too a point where the test accuracy would fluctuate between 45 and 65/70 percent at around the
+            eight minute mark, but I did manage to screenshot a flucuation over 60%, so that's a positive haha. Example I had seen online where
+            doing over 100,000 batches though, but my computer is just to slow to that many in a short amount of time, especially in javascript!</p>
+            <img src="convs/cifar_60.png" width="75%" />
+          </li>
+          <br><br>
+          <li>
+            <p><b>Performance Stats for 3 Model Setups</b></p>
+              <img src="perf/1conv.png" width="30%" />
+              <img src="perf/2convs.png" width="30%" />
+              <img src="perf/3convs.png" width="30%" />
+          </li>
+          <br><br>
+          <li>
+            <p><b>Code Links as Text Files (3 files editted for performance stats)</b></p>
+            <a href="codeTextFiles/indexhtml.txt">index.html file</a><br>
+            <a href="codeTextFiles/indexjs.txt">index.js file</a><br>
+            <a href="codeTextFiles/uijs.txt">ui.js file</a><br>
+          </li>
+        </ol>
+    </body>
+</html>
