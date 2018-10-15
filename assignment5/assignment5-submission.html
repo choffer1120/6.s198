@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Cole Hoffer Assignment 5</title>
+        <style>
+        	body{
+        		width: 90%;
+        		margin-left: 5%;
+        	}
+        	h3{
+        		margin-top: 24px;
+        	}
+        </style>
+    </head>
+
+    <body>
+        <h1>6.S198 Assignment 5</h1>
+        <h2>Cole Hoffer</h2>
+        <h2>Email: choffer@mit.edu</h2>
+
+        <ul>
+            <li>
+                <h3>1.2.1</h3>
+                <p>A second FC is required in order to attain the correct number of units for the reshape layer. Thus, if a reshape layer is 32, 32, 3 - 3072 units will be needed in the previous
+                layer in order to reshape. With that said, [600] could NOT reshape to [20,20,2], as 20*20*2 = 800. But [800] units could reshape to [20, 10, 4], as 20*10*4 = 800.</p>
+            </li>
+
+            <li>
+                <h3>1.2.2</h3>
+                <p>Progress in order from 175k iterations, 250k iterations and 300k iterations.</p>
+                <p>With the 175k iterations, you can see a few digit spaces starting to be formed, but there is still really no details, just a blob of dots. But at 300k iterations, you can really see most of the digits forming, with the 9, 1 and 0 digit being the most pronounced. The 9's being generating were even good enough to make the real nines harder to distinguish, with rates being near 50/50 for some real image distinguishments.</p>
+                <img src="175.PNG" width="40%" style="margin-right: 5%"/>
+
+                <img src="250.PNG" width="40%" />
+                <br><br>
+                <img src="300.PNG" width="40%" />
+            </li>
+
+            <li>
+                <h3>1.2.3</h3>
+                <p>In general, I found the convoultional model to be a better performer, as you will see in the next few questions, I was able to getter better results with a convolutional model in just 150k iterations, as compared to the 300k iterations I used with the fuilly connected. The fully connected did seem to be faster though (but my computer is finicky with speeds so I'm not sure it that would always be the case).</p>
+            </li>
+
+            <li>
+                <h3>1.3 Architectures</h3>
+                <p>Architecture 1: Higher Learning Rate for Discriminator</p>
+                <img src="highdis.PNG" width="65%" />
+                <br><br>
+
+                <p>Architecture 2: Higher Learning Rate for Generator</p>
+                <img src="highgen.PNG" width="65%" />
+                <br><br>
+
+                <p>Architecture 3:Same Learning Rates, FC for Discriminator, Conv for Generator</p>
+                <img src="option3.PNG" width="65%" />
+                <br><br>
+            </li>
+
+            <li>
+                <h3>1.3.1</h3>
+                <p>Having a higher learning for the generator was by far the best option, as seen in the Architecture 2 screenshot above. Of the 12 of so examples shown, I don't think I would have been able to tell that they were generated as oposed to being in the MNIST database. In general, it seems to have a bit harder time with the curlier digits like 8 and 3, but is really good with 7's and 9's.</p>
+
+                <p>The architecture with the higher learning rate for the discriminator did seem to create a lot of images that looked like scrunched 8's, so that might have been an example of mode-collapsing in that model.</p>
+            </li>
+
+            <li>
+                <h3>1.3.2</h3>
+                <p>As I mentioned above, when the generator learning rate was higher then the discriminator's, the best performing model was produced. With a higher disciminator learning rate, the model was still able to generate a couple digits, but most then ended as either a random splotch in the middle, or some weirdly distorted 8-looking figure, so it probably wasn't the best setup.</p>
+            </li>
+
+            <li>
+                <h3>1.3.3</h3>
+                <p>I ran a FC architecture on the CIFAR database for 25 minutes. It defintiely was not able to create any recongnizable generated images. However, it did seem to be getting to a point where the pixel colations was centering around the spot where the image subject might be. Such the darkest pixels being near where the real ship pixels were, or the darkest pixels being where the real truck was. So it definitely was learning, but would need a lot more time, and as it 2am on Monday, it wouldn't be wise for me to count on waking up before 10am to check those results and submit, haha good thing that's optional!</p>
+                <img src="cifar.PNG" width="65%" />
+            </li>
+        </ul>
+
+    </body>
+</html>
