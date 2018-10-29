@@ -1,0 +1,213 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Intro to TensorFlow and Music Generation with RNNs
+# # Part 1: Intro to TensorFlow
+
+# TensorFlow is a software library extensively used in machine learning. Here we'll learn how computations are represented and how to define simple neural networks in TensorFlow.
+
+# In[1]:
+
+
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# ## 1.1 The Computation Graph
+# 
+# TensorFlow is called TensorFlow because it handles the flow (node/mathematical operation) of Tensors (data). You can think of a Tensor as a multidimensional array. In TensorFlow, computations are represented as graphs. TensorFlow programs are usually structured into a phase that assembles a graph, and a phase that uses a session to execute operations in the graph. In TensorFlow we define the computational graph with Tensors and mathematical operations to create a system for machine learning and deep learning.
+# 
+# We can think of a computation graph as a series of math operations that occur in some order. First let's look at a simple example:
+# 
+# ![alt text](img/add-graph.png "Computation Graph")
+# 
+
+# In[2]:
+
+
+# create nodes in a graph
+a = tf.constant(15, name="a")
+b = tf.constant(61, name="b")
+
+# add them
+c = tf.add(a,b, name="c")
+print(c)
+
+
+# Notice that the output is still an abstract Tensor -- we've just created a computation graph consisting of operations. To actually get our result, we have to run a session to execute the graph. We'll do that next.
+
+# ### 1.1.1 Building and Executing the Computation Graph
+# 
+# Consider the following computation graph:
+# 
+# ![alt text](img/computation-graph.png "Computation Graph")
+# 
+# This graph takes 2 inputs, `a, b` and computes an output `e`. Each node in the graph is an operation that takes some input, does some computation, and passes its output to another node.
+# 
+# Let's first construct this computation graph in TensorFlow:
+
+# In[3]:
+
+
+# define inputs 
+a = tf.placeholder(tf.float32)
+b = tf.placeholder(tf.float32)
+
+'''TODO: Define the operation for c, d, e (use tf.add, tf.subtract, tf.multiply).'''
+c = tf.add(a,b)
+d = tf.subtract(b,1)
+e = tf.multiply(c,d)
+
+
+# TensorFlow uses tf.placeholder to handle inputs to the model. tf.placeholder lets you specify that some input will be coming in, of some shape and some type. Only when you run the computation graph do you actually provide the values of this input data. 
+# 
+# Now, we can define a session and run our computation graph:
+# 
+
+# In[4]:
+
+
+with tf.Session() as session:
+    a_data, b_data = 2.0, 4.0
+    # define inputs
+    feed_dict = {a: a_data, b: b_data}
+    # pass data in and run the computation graph in a session
+    output = session.run([e], feed_dict=feed_dict)
+    print(output) # 18
+
+
+# Let's go through the execution above step-by-step. First, we used `feed_dict` to pass in the input data, and then used `session.run` to run the graph and grab the output from the operation in the graph. `e` is at the end of the graph, so we ran the entire graph and returned the result. 
+
+# ## 1.2 Neural Networks in TensorFlow
+# We can define neural networks in TensorFlow using computation graphs. Here is an example of a very simple neural network (just 1 perceptron):
+# 
+# ![alt text](img/computation-graph-2.png "Computation Graph")
+# 
+# This graph takes an input, (x) and computes an output (out). It does so how we learned in lecture today: `out = sigmoid(W*x+b)`.
+# 
+# We could build this computation graph in TensorFlow in the following way:
+
+# In[5]:
+
+
+n_input_nodes = 2
+n_output_nodes = 1
+x = tf.placeholder(tf.float32, (None, n_input_nodes))
+W = tf.Variable(tf.ones((n_input_nodes, n_output_nodes)), dtype=tf.float32)
+b = tf.Variable(tf.zeros(n_output_nodes), dtype=tf.float32)
+
+'''TODO: Define the operation for z (use tf.matmul).'''
+z = tf.matmul(x, W) + b
+
+'''TODO: Define the operation for out (use tf.sigmoid).'''
+out = tf.sigmoid(z)
+
+
+# As with the previous example, we can use `session.run()` to execute this computation graph, and use a `feed_dict` to feed in our input:
+
+# In[6]:
+
+
+test_input = [[0.25, 0.15]]
+graph=tf.Graph()
+with tf.Session() as session:
+    tf.global_variables_initializer().run(session=session)
+    ''' TODO: Define the input'''
+    feed_dict = {x: test_input}
+    ''' TODO: Run the session and get the output of the perceptron!'''
+    output = session.run(out, feed_dict=feed_dict)
+    print(output[0]) # This should output 0.59868765. 
+
+
+# ## 1.3 Eager execution
+# 
+# The 6.S191 team is **Eager** to show you one of the coolest recent developments in TensorFlow: Eager execution. Eager is an experimental interface to TensorFlow that provides an imperative programming style. When you enable Eager execution, TensorFlow operations execute immediately as they're called from Python. That means you do not execute a pre-constructed graph with `Session.run()`. This allows for fast debugging and a more intuitive way to get started with TensorFlow.
+
+# First, we must enable Eager execution. When we do this, operations will execute and return their values immediately. Some things to note:
+# 
+# - We will need to restart the Python kernel since we have already used TensorFlow in graph mode. 
+# - We enable eager at program startup using: `tfe.enable_eager_execution()`.
+# - Once we enable Eager with `tfe.enable_eager_execution()`, it cannot be turned off. To get back to graph mode, start a new Python session.
+
+# ### 1.3.1 How is Eager Different?
+# Before we get started with Eager, let's see what happens when we define a simple operation in graph mode:
+
+# In[7]:
+
+
+print(tf.add(1, 2))
+
+
+# This tells us that we're just building a computation graph with the above operation, and not actually executing anything. Let's see how Eager is different. We restart the Python kernel and start Eager execution. 
+# **This command will cause your kernel to die but this is okay since we are restarting.**
+
+# In[ ]:
+
+
+import os
+os._exit(00)
+
+
+# In[1]:
+
+
+import tensorflow.contrib.eager as tfe
+tfe.enable_eager_execution()
+import tensorflow as tf
+
+
+# Let's run the same operation as before -- adding 1 and 2 -- in Eager mode:
+
+# In[2]:
+
+
+print(tf.add(1, 2))
+
+
+# Cool! We just defined and executed an operation in TensorFlow immediately as it was called.
+
+# ### 1.3.2 Automatic Differentiation
+# Automatic differentiation is very useful when implementing many machine learning algorithms such as backpropagation for training neural networks. For this purpose, TensorFlow Eager execution provides an [autograd](https://github.com/HIPS/autograd)	style API for automatic differentiation.
+
+# In[3]:
+
+
+def f(x):
+    # f(x) = x^2 + 3
+    return tf.multiply(x, x) + 3
+
+print( "f(4) = %.2f" % f(4.) )
+
+# First order derivative
+df = tfe.gradients_function(f) # tfe == eager mode
+print( "df(4) = %.2f" % df(4.)[0] )
+
+# Second order derivative
+'''TODO: fill in the expression for the second order derivative using Eager mode gradients'''
+d2f = tfe.gradients_function(lambda x: df(x)[0])
+print( "d2f(4) = %.2f" % d2f(4.)[0] )
+
+
+# ### 1.3.3 Dynamic Models
+# 
+# Dynamic models can be built with Python flow control. Here's an example of the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) using TensorFlow’s arithmetic operations. Such dynamic behavior is not possible in standard TensorFlow (up to v1.4):
+
+# In[4]:
+
+
+a = tf.constant(12)
+counter = 0
+while not tf.equal(a, 1):
+  if tf.equal(a % 2, 0):
+    a = a / 2
+  else:
+    a = 3 * a + 1
+  print(a)
+
+
+# In[ ]:
+
+
+
+

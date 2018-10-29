@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Cole Hoffer Assignment 6</title>
+        <style>
+        	body{
+        		width: 90%;
+        		margin-left: 5%;
+        	}
+        	h3{
+        		margin-top: 24px;
+        	}
+        </style>
+    </head>
+
+    <body>
+        <h1>6.S198 Assignment 6</h1>
+        <h2>Cole Hoffer</h2>
+        <h2>Email: choffer@mit.edu</h2>
+
+        <ol>
+            <li>
+                <h3>Reward Scheme</h3>
+                <p>+1 (and finish) moving to G</p>
+                <p>+0 (and finish) moving to H</p>
+                <p>+0 (and continue) moving to S or F</p>
+                <p>So basically the only reward is to get to G, and the time it takes to get there doesn't matter as long as you don't fall into a hole.</p>
+            </li>
+
+            <li>
+                <h3>Q-Learning Table Size</h3>
+                <p>We can do 4 actions at each space, and there are 16 spaces. So we have a 16x4 sized table (or 64 values total).</p>
+            </li>
+
+            <li>
+                <h3>Rewards over time</h3>
+                <p>The only two reward values are 0 and 1. But over time, the amount of times the program ended with a reward of 1 greatly increased, as compared to the start where maybe only 1 of 10 runs would score a 1. This makes sense, as playing the game more times allows the program to store more memory on various game states, so once a lot of that data is collected, the algorithm is much more likely to be able to chart a successful reward path.</p>
+            </li>
+
+            <li>
+                <h3>Discount Factor and Learning Rate</h3>
+                <p>Playing around the discount factor was hugely important. Lowering meant the program looked "less" back into the future, and thus was learning less from previous runs. This lead to an overall decline in performance, with a .75 factor reducing the last 100 runs to about a 25% success rate, while a .5 factor basically saw the score not improve at all as time went on. Conversly, .95 was about the highest we could be safe with the factor, as moving it to equal 1 meant the program only tried to live in the past, and actually never succeeded after a couple initial wins.</p>
+                <br>
+                <p>The learning rate has to do with how fast the program learns from past runs. Decreasing the learning rate lower then the initial .8 saw that the overall program was just not increasing it's score as fast as it was earlier as time went on, which makes sense. However, increasing the lr to say .9 actually performed worse then the initial .8. This has to do with program essentially jumping over the optimum move progression strategy, since it didn't have enough time to nail those best moves down.</p>
+            </li>
+        </ol>
+
+    </body>
+</html>

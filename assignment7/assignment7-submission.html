@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Cole Hoffer Assignment 7</title>
+        <style>
+        	body{
+        		width: 90%;
+        		margin-left: 5%;
+        	}
+        	h3{
+        		margin-top: 24px;
+        	}
+        </style>
+    </head>
+
+    <body>
+        <h1>6.S198 Assignment 7</h1>
+        <h2>Cole Hoffer</h2>
+        <h2>Email: choffer@mit.edu</h2>
+
+        <ol>
+            <li>
+                <h3>Understanding LSTM's</h3>
+                <ol>
+                    <li>The two pieces of information that are passed between modules is the past data and the past control mechanisms (stuff that candles forgetting vectors and so forth).</li>
+
+                    <li>The problem with RNN's is that it treats all past data as equals, rather then prioritizing more recent, and probably more informative data. They do this by implementing mechanisms to "forget" certain past data at each step</li>
+
+                    <li>The values shared between the modules are the previous modules output and the 'control mechanism' (in LSTMs). Nonshared values include the various bias weights for each module. </li>
+
+                    <li>A sigmoid ranges from 0 to 1 (but non-linerarly). It's good to use it when mulitplied with current state vector because it essentially is a good way to keep most of the past information or remove most of the past info (multipling by essentially 0), as most outputs from the sigmoid are very close to 1 or 0.</li>
+                </ol>
+            </li>
+
+
+            <li>
+                <h3>Text Generation</h3>
+                <ol>
+                    <li>10 Epochs, perplexity = 12.36, but it varies wildly (running for 2 more seconds results in perplexity of 3.02).</li>
+                    <li>The lower the temp, the better the sentence, but there is no variation between whole sentences. 0.35 temperature was probably the best mix of natural and non-repetitive. Ex's: "I will be me you words with you love to me the deee the sings my to you words to the stand the stand" and "Then I've world you sear my heart don't the will will me you will my world the some in me the day".</li>
+                    <li>It LOVES the word "stand", which makes sense as it shows up 85 times in the Adele dataset. It also likes "I will" as it's present very often in both sets. For lower temps, the generated sentences are much longer then the average sentence in both datasets, but that length issue is fixed with higher temps.</li>
+                    <li>I experimented with increasing the letter size to 10. It seemed to slow down the amount of time it took to train, but the results are a little better I think. At the same 0.35, the sentences are more varied but still natural sounding, with just a few misspellings. Ex: "I go not in a baby" and "Say wath the rake you for you my heart the dark to say my harnt the light want me and a han to your"</li>
+                </ol>
+            </li>
+
+             <li>
+                <h3>Music Generation</h3>
+                <ol>
+                    <li>Code: Intro code that had todos: <a href="intro.txt">Text file with code</a>. Music Generation code that had todos: <a href="music_gen.txt">Text file with code</a></li>
+
+                    <li><a href="dancing_queen_baby.txt">MIDI File</a> (will open as txt file so you will need to convert to midi yourself) </li>
+                </ol>
+            </li>
+        </ol>
+    </body>
+</html>
